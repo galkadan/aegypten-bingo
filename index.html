@@ -1,0 +1,963 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Ägypten-Bingo</title>
+<meta name="description" content="Ägypten-Bingo für unterwegs – mit viel Liebe von Gal, Camilla &amp; Marcello.">
+<meta property="og:title" content="Ägypten-Bingo">
+<meta property="og:description" content="Mit viel Liebe von Gal, Camilla &amp; Marcello. Link öffnen, Namen eintragen, lostippen.">
+<meta name="theme-color" content="#1B2A6B">
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2024%2024%27%3E%3Crect%20width%3D%2724%27%20height%3D%2724%27%20rx%3D%275%27%20fill%3D%27%231B2A6B%27/%3E%3Cpath%20d%3D%27M3.5%2019h17L12%205z%27%20fill%3D%27%23E8A81F%27/%3E%3Cpath%20d%3D%27M12%205l2.4%2014%27%20stroke%3D%27%231B2A6B%27%20stroke-width%3D%271.2%27/%3E%3C/svg%3E">
+<style>
+:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:ital,wght@0,500;0,600;0,700;1,500&family=Bungee&display=swap" rel="stylesheet">
+<style>
+/* Layout: one phone-width column, the printed bingo card made tappable. First visit: welcome + names form. After that: names, card badge, 5x5 board, note strip, rules + love stamp */
+:root {
+  --bg: #FFFFFF;
+  --ink: #1B2A6B;
+  --ink-2: #4A5578;
+  --teal: #178477;
+  --cell: #FFFFFF;
+  --cell-alt: #E6F4F1;
+  --gold: #E8A81F;
+  --coral: #E0603A;
+  --heart: #F07A4F;
+  --cream: #FFF4DE;
+  --marked: #FFE6A8;
+  --on-gold: #1B2A6B;
+  --scrim: rgba(27, 42, 107, 0.55);
+  --display: 'Bungee', 'Arial Black', Impact, sans-serif;
+  --body: 'Archivo Narrow', 'Arial Narrow', 'Roboto Condensed', sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0F1633; --ink: #F3EAD3; --ink-2: #B4BCD9; --teal: #5ED3C1;
+    --cell: #18224A; --cell-alt: #133849; --gold: #F2B53A; --coral: #FF8C66; --heart: #FF8C66;
+    --cream: #2A2546; --marked: #5B4512; --on-gold: #1B2A6B; --scrim: rgba(4, 7, 20, 0.72);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0F1633; --ink: #F3EAD3; --ink-2: #B4BCD9; --teal: #5ED3C1;
+  --cell: #18224A; --cell-alt: #133849; --gold: #F2B53A; --coral: #FF8C66; --heart: #FF8C66;
+  --cream: #2A2546; --marked: #5B4512; --on-gold: #1B2A6B; --scrim: rgba(4, 7, 20, 0.72);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.4;
+  -webkit-text-size-adjust: 100%;
+}
+button { font: inherit; color: inherit; }
+button:focus-visible, input:focus-visible, summary:focus-visible {
+  outline: 3px solid var(--teal);
+  outline-offset: 2px;
+}
+
+.wrap {
+  max-width: 540px;
+  margin: 0 auto;
+  padding-inline: 16px;
+  padding-block: 20px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.screen { display: flex; flex-direction: column; gap: 16px; }
+
+/* Header */
+.kicker {
+  font: 700 12px/1.2 var(--body);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--teal);
+}
+.titlerow { position: relative; margin-top: 6px; }
+h1 {
+  margin: 0;
+  font: 400 clamp(36px, 12vw, 62px)/0.95 var(--display);
+  text-transform: uppercase;
+  color: var(--ink);
+}
+h1 span { display: block; }
+.camel {
+  position: absolute;
+  right: 2px;
+  bottom: -4px;
+  width: clamp(52px, 16vw, 76px);
+  height: auto;
+  color: var(--gold);
+  transform: rotate(-8deg);
+}
+.tag {
+  margin: 8px 0 0;
+  font: italic 500 15px/1.3 var(--body);
+  color: var(--ink-2);
+}
+.zig { display: block; width: 100%; height: 14px; color: var(--gold); margin-top: 12px; }
+
+/* Names line on the card */
+.namerow {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+}
+.nl { font: 400 18px/1.1 var(--display); flex-shrink: 0; }
+.names {
+  flex: 1;
+  min-width: 0;
+  border-bottom: 2px solid var(--ink);
+  font: 700 19px/1.25 var(--body);
+  padding: 0 2px 3px;
+  overflow-wrap: anywhere;
+}
+.icon-btn {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  margin-bottom: -6px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ink-2);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+.icon-btn:hover { background: var(--cell-alt); color: var(--ink); }
+.icon-btn svg { width: 20px; height: 20px; }
+.nameedit { display: flex; align-items: flex-end; gap: 8px; flex-wrap: wrap; }
+.nameedit input { flex: 1 1 180px; }
+
+input.line {
+  min-width: 0;
+  width: 100%;
+  border: 0;
+  border-bottom: 2px solid var(--ink);
+  border-radius: 0;
+  background: transparent;
+  color: var(--ink);
+  font: 700 19px/1.25 var(--body);
+  padding: 4px 2px 4px;
+}
+input.line::placeholder { color: var(--ink-2); font-weight: 500; opacity: 0.85; }
+input.line:focus { border-bottom-color: var(--teal); }
+
+/* Card badge + stats */
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 12px;
+  flex-wrap: wrap;
+}
+.cardtag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  border: 2px solid var(--teal);
+  border-radius: 8px;
+  color: var(--teal);
+  font: 400 16px/1 var(--display);
+  transform: rotate(-2deg);
+}
+.cardtag.fresh { animation: stampin 0.5s cubic-bezier(0.2, 1.5, 0.4, 1); }
+@keyframes stampin {
+  from { transform: scale(2.2) rotate(-14deg); opacity: 0; }
+  to { transform: scale(1) rotate(-2deg); opacity: 1; }
+}
+.stats { display: flex; align-items: center; gap: 10px; }
+.found { font: 600 15px/1.1 var(--body); color: var(--ink-2); }
+.found b { font-weight: 700; color: var(--ink); font-variant-numeric: tabular-nums; }
+.pill {
+  font: 400 13px/1 var(--display);
+  background: var(--gold);
+  color: var(--on-gold);
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  padding: 6px 10px;
+  transform: rotate(-3deg);
+  white-space: nowrap;
+}
+
+/* Board */
+.board {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: clamp(4px, 1.4vw, 8px);
+}
+.cell {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  max-width: 100%;
+  border: 2px solid var(--ink);
+  border-radius: 10px;
+  background: var(--cell);
+  color: var(--ink);
+  padding: 5px 3px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  text-align: center;
+  cursor: pointer;
+  overflow: hidden;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 0.15s, transform 0.1s;
+}
+.cell.alt { background: var(--cell-alt); }
+.cell:active { transform: scale(0.96); }
+.cell .ico {
+  width: clamp(16px, 4.8vw, 26px);
+  height: clamp(16px, 4.8vw, 26px);
+  color: var(--teal);
+  flex-shrink: 0;
+}
+.cell .lbl {
+  font: 700 clamp(10.5px, 2.95vw, 14px)/1.08 var(--body);
+  hyphens: manual;
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
+.cell .stamp {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--coral);
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(1.7) rotate(-14deg);
+}
+.cell .stamp svg { width: 86%; height: auto; max-height: 86%; }
+.cell.on { background: var(--marked); }
+.cell.on .ico, .cell.on .lbl { opacity: 0.45; }
+.cell.on .stamp {
+  opacity: 1;
+  transform: scale(1) rotate(-14deg);
+  transition: transform 0.28s cubic-bezier(0.2, 1.6, 0.4, 1), opacity 0.12s;
+}
+.cell.free { background: var(--gold); color: var(--on-gold); }
+.cell.free .ico { color: var(--on-gold); }
+.cell.free .big { font: 400 clamp(14px, 4.4vw, 22px)/1 var(--display); }
+.cell.free .lbl { font-size: clamp(10px, 2.7vw, 13px); }
+.cell.win { border-color: var(--coral); box-shadow: 0 0 0 2px var(--coral); }
+.cell.pop { animation: wiggle 0.7s ease; }
+@keyframes wiggle {
+  0%, 100% { transform: none; }
+  25% { transform: rotate(-5deg) scale(1.06); }
+  55% { transform: rotate(4deg) scale(1.04); }
+}
+
+/* Note strip */
+.note {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 2px dashed var(--ink);
+  border-radius: 14px;
+  padding: 12px 14px;
+  min-height: 76px;
+}
+.note-ico {
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--cell-alt);
+  color: var(--teal);
+  display: grid;
+  place-items: center;
+}
+.note-ico svg { width: 22px; height: 22px; }
+.note-body { flex: 1; min-width: 0; }
+.note-k {
+  font: 400 12px/1.2 var(--display);
+  letter-spacing: 0.04em;
+  color: var(--teal);
+}
+.note-t { margin: 3px 0 0; font: 600 15px/1.3 var(--body); overflow-wrap: anywhere; }
+.btn {
+  flex-shrink: 0;
+  min-height: 42px;
+  border: 2px solid var(--ink);
+  background: var(--bg);
+  border-radius: 999px;
+  padding: 8px 14px;
+  font: 700 14px/1 var(--body);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.btn:hover { background: var(--cell-alt); }
+.btn.solid { background: var(--ink); color: var(--bg); }
+.btn.solid:hover { background: var(--teal); border-color: var(--teal); }
+.btn.big { min-height: 52px; padding: 14px 24px; font: 400 16px/1 var(--display); }
+
+/* Welcome */
+.welcome {
+  border: 2px solid var(--ink);
+  border-radius: 18px;
+  padding: 22px 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: var(--bg);
+  box-shadow: 6px 6px 0 var(--cell-alt);
+}
+.reserved {
+  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 16px;
+  border: 2px dashed var(--coral);
+  border-radius: 10px;
+  color: var(--coral);
+  transform: rotate(-3deg);
+}
+.reserved small { font: 700 11px/1 var(--body); letter-spacing: 0.14em; text-transform: uppercase; }
+.reserved strong { font: 400 22px/1 var(--display); font-weight: 400; }
+.welcome h2 { margin: 0; font: 400 clamp(24px, 7.5vw, 32px)/1.05 var(--display); text-wrap: balance; }
+.welcome .lead { margin: 0; font: 500 16px/1.45 var(--body); max-width: 60ch; }
+.setup { display: flex; flex-direction: column; gap: 16px; margin-top: 4px; }
+.field { display: flex; flex-direction: column; gap: 4px; }
+.flabel { font: 400 13px/1.2 var(--display); letter-spacing: 0.03em; color: var(--teal); }
+.hint { margin: 0; font: 500 14px/1.35 var(--body); color: var(--ink-2); }
+.chips {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 6px;
+}
+.chip {
+  min-height: 46px;
+  border: 2px solid var(--ink);
+  border-radius: 10px;
+  background: var(--bg);
+  font: 400 18px/1 var(--display);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.chip:hover { background: var(--cell-alt); }
+.chip[aria-pressed="true"] { background: var(--gold); color: var(--on-gold); }
+.err { margin: 0; font: 700 15px/1.35 var(--body); color: var(--coral); }
+
+/* All squares list */
+.all { border-top: 2px dashed var(--ink); }
+.all summary {
+  list-style: none;
+  cursor: pointer;
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font: 400 15px/1.2 var(--display);
+}
+.all summary::-webkit-details-marker { display: none; }
+.all summary svg { width: 20px; height: 20px; transition: transform 0.2s; flex-shrink: 0; }
+.all[open] summary svg { transform: rotate(180deg); }
+.all ul { list-style: none; margin: 0 0 4px; padding: 0; display: flex; flex-direction: column; }
+.all li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--cell-alt);
+  font: 600 15px/1.35 var(--body);
+}
+.all li .ico { width: 20px; height: 20px; color: var(--teal); flex-shrink: 0; margin-top: 1px; }
+.all li span { flex: 1; min-width: 0; }
+.all li .tick { width: 20px; height: 20px; color: var(--coral); flex-shrink: 0; visibility: hidden; }
+.all li.done span { color: var(--ink-2); }
+.all li.done .tick { visibility: visible; }
+
+/* Footer */
+.foot {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  border-top: 2px dashed var(--ink);
+  padding-top: 16px;
+}
+.rules { margin: 0; font: 500 15px/1.45 var(--body); max-width: 62ch; }
+.love {
+  align-self: center;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  background: var(--cream);
+  transform: rotate(-3deg);
+}
+.love svg { width: 26px; height: 26px; flex-shrink: 0; }
+.love small { display: block; font: 600 13px/1.15 var(--body); color: var(--ink-2); }
+.love strong { display: block; font: 400 14px/1.2 var(--display); color: var(--ink); }
+.reset {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 12px;
+  flex-wrap: wrap;
+  font: 500 14px/1.35 var(--body);
+  color: var(--ink-2);
+}
+.reset p { margin: 0; flex: 1 1 180px; min-width: 0; }
+.reset .row { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* Celebration */
+.cel {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  background: var(--scrim);
+  display: grid;
+  place-items: center;
+  padding: 24px 16px;
+}
+.cel-card {
+  width: min(360px, 100%);
+  background: var(--bg);
+  color: var(--ink);
+  border: 3px solid var(--ink);
+  border-radius: 20px;
+  box-shadow: 8px 8px 0 var(--gold);
+  padding: 22px 20px 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  transform: rotate(-2deg);
+  animation: pop 0.45s cubic-bezier(0.2, 1.5, 0.4, 1);
+}
+.cel-card svg { width: 64px; height: 64px; color: var(--gold); }
+.cel-card h2 {
+  margin: 0;
+  font: 400 clamp(44px, 15vw, 64px)/1 var(--display);
+  color: var(--ink);
+  text-shadow: 3px 3px 0 var(--coral);
+}
+.cel-card p { margin: 0; font: 600 17px/1.35 var(--body); text-wrap: balance; overflow-wrap: anywhere; }
+.cel-card .btn { margin-top: 8px; font: 400 15px/1 var(--display); padding: 12px 22px; }
+@keyframes pop {
+  from { transform: scale(0.6) rotate(-12deg); opacity: 0; }
+  to { transform: scale(1) rotate(-2deg); opacity: 1; }
+}
+#confetti {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 30;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+</style>
+
+<main class="wrap">
+  <header>
+    <div class="kicker">Giza · Luxor · Hurghada</div>
+    <div class="titlerow">
+      <h1><span>Ägypten-</span><span>Bingo</span></h1>
+      <svg class="camel" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 18v-3.5C2 12 3.5 11 5 11c1.3 0 1.8 1.2 3 1.2S9.8 8 12 8s3 2.5 3 4.5h2.2l1.3-3.5H21l.6 1.6-1.6 1.4V18"/><path d="M6 18v-3M16 18v-4"/><path d="M18.3 9.3h3"/></svg>
+    </div>
+    <p class="tag">Offiziell genehmigt von null Pharaonen.</p>
+    <svg class="zig" aria-hidden="true"><defs><pattern id="zz" width="24" height="14" patternUnits="userSpaceOnUse"><path d="M0 12.5L12 2.5L24 12.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/></pattern></defs><rect width="100%" height="14" fill="url(#zz)"/></svg>
+  </header>
+
+  <!-- First visit -->
+  <section class="welcome" id="welcome" hidden aria-labelledby="w-h">
+    <div class="reserved" id="reserved" hidden><small>Für euch reserviert</small><strong id="reserved-n">KARTE 1</strong></div>
+    <h2 id="w-h">Wie heißt ihr?</h2>
+    <p class="lead">Eure Namen kommen auf eure Karte. Danach öffnet sich diese Seite auf diesem Handy immer direkt mit eurer Karte.</p>
+    <form class="setup" id="setup" novalidate>
+      <div class="field">
+        <label class="flabel" for="names-in">EURE NAMEN</label>
+        <input class="line" id="names-in" type="text" maxlength="40" autocomplete="off" placeholder="z. B. Familie Weber">
+      </div>
+      <div class="field" id="pick-wrap" hidden>
+        <div class="flabel" id="pick-label">EURE KARTENNUMMER</div>
+        <p class="hint">Steht oben auf eurer Papierkarte.</p>
+        <div class="chips" id="chips" role="group" aria-labelledby="pick-label"></div>
+      </div>
+      <p class="err" id="err" role="alert" hidden></p>
+      <button type="submit" class="btn solid big">Zu unserer Karte</button>
+    </form>
+  </section>
+
+  <!-- Your card -->
+  <section class="screen" id="game" hidden>
+    <div class="namerow" id="namerow">
+      <span class="nl">Namen:</span>
+      <span class="names" id="names-text"></span>
+      <button type="button" class="icon-btn" id="edit-names" aria-label="Namen ändern"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg></button>
+    </div>
+    <form class="nameedit" id="nameedit" hidden>
+      <label class="nl" for="names-edit">Namen:</label>
+      <input class="line" id="names-edit" type="text" maxlength="40" autocomplete="off">
+      <button type="submit" class="btn solid">Speichern</button>
+    </form>
+
+    <div class="bar">
+      <div class="cardtag" id="cardtag">KARTE 1</div>
+      <div class="stats">
+        <div class="found"><b id="count">0</b> von 24 gefunden</div>
+        <div class="pill" id="pill" hidden>1× BINGO</div>
+      </div>
+    </div>
+
+    <div class="board" id="board" aria-label="Eure Bingo-Karte, 5 mal 5 Felder"></div>
+
+    <section class="note" id="note" aria-live="polite">
+      <div class="note-ico" id="note-ico"></div>
+      <div class="note-body">
+        <div class="note-k" id="note-k">LOS GEHT'S</div>
+        <p class="note-t" id="note-t"></p>
+      </div>
+      <button type="button" class="btn" id="note-btn" hidden>Doch nicht</button>
+    </section>
+
+    <details class="all" id="all">
+      <summary>Alle Felder im Klartext <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <ul id="list"></ul>
+    </details>
+  </section>
+
+  <footer class="foot">
+    <p class="rules"><strong>So geht's:</strong> Sehen, antippen. Fünf in einer Reihe – quer, runter oder schräg – und du rufst BINGO! Wer gewinnt, darf als Erstes ans Nachtisch-Buffet. Volle Karte: einen Abend lang Pharao (mit Handtuch-Krone).</p>
+    <div class="love">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z" fill="var(--heart)" stroke="var(--ink)" stroke-width="1.5" stroke-linejoin="round"/></svg>
+      <div><small>Mit viel Liebe von</small><strong>GAL, CAMILLA &amp; MARCELLO</strong></div>
+    </div>
+    <div class="reset" id="reset-area" hidden>
+      <p id="reset-msg">Euer Spielstand bleibt auf diesem Handy gespeichert.</p>
+      <div class="row" id="reset-row">
+        <button type="button" class="btn" id="reset">Neu starten</button>
+      </div>
+      <div class="row" id="confirm-row" hidden>
+        <button type="button" class="btn solid" id="reset-marks">Kreuze löschen</button>
+        <button type="button" class="btn" id="reset-all">Alles, auch Karte</button>
+        <button type="button" class="btn" id="reset-no">Abbrechen</button>
+      </div>
+    </div>
+  </footer>
+</main>
+
+<div class="cel" id="cel" hidden>
+  <div class="cel-card" role="dialog" aria-modal="true" aria-labelledby="cel-h" aria-describedby="cel-p">
+    <svg id="cel-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"></svg>
+    <h2 id="cel-h">BINGO!</h2>
+    <p id="cel-p"></p>
+    <button type="button" class="btn solid" id="cel-btn">Weiter suchen</button>
+  </div>
+</div>
+<canvas id="confetti" aria-hidden="true" hidden></canvas>
+
+<script>
+const ITEMS = [{"t": "Jemand „hält“ eine Pyramide auf einem Foto", "s": "Pyramide „halten“", "i": "<path d=\"M3 19h18L12 5z\"/><path d=\"M12 5l2.5 14\"/><circle cx=\"19\" cy=\"5\" r=\"1.6\"/>"}, {"t": "Jemand fragt zum dritten Mal: „Wann gibt's Essen?“", "s": "„Wann gibt's Essen?“ ×3", "i": "<path d=\"M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10\"/><path d=\"M17 21V3c-2 1.5-3 4-3 8h3\"/>"}, {"t": "Ein Gott, der ein Mistkäfer ist", "s": "Mist­käfer-Gott", "i": "<ellipse cx=\"12\" cy=\"14\" rx=\"5\" ry=\"6\"/><path d=\"M12 8v12M7 12H3.5M7 16H4M17 12h3.5M17 16h3\"/><circle cx=\"12\" cy=\"6\" r=\"2\"/><path d=\"M10.5 4.5L9 2.5M13.5 4.5L15 2.5\"/>"}, {"t": "Ein Kamel mit Sonnenbrille oder Hut", "s": "Kamel mit Sonnen­brille", "i": "<path d=\"M2 18v-3.5C2 12 3.5 11 5 11c1.3 0 1.8 1.2 3 1.2S9.8 8 12 8s3 2.5 3 4.5h2.2l1.3-3.5H21l.6 1.6-1.6 1.4V18\"/><path d=\"M6 18v-3M16 18v-4\"/><path d=\"M18.3 9.3h3\"/>"}, {"t": "Ein Fisch, der dich überrascht anguckt", "s": "Verdutzter Fisch", "i": "<path d=\"M3 12c3-4 7-5 10-5 3 0 5 2 6 5-1 3-3 5-6 5-3 0-7-1-10-5z\"/><path d=\"M19 12l3-3v6z\"/><circle cx=\"8.5\" cy=\"10.5\" r=\"1.4\"/><circle cx=\"5\" cy=\"13\" r=\"1\"/>"}, {"t": "Jemand schläft im Bus – mit offenem Mund", "s": "Bus-Schläfer, Mund offen", "i": "<rect x=\"3\" y=\"7\" width=\"18\" height=\"10\" rx=\"2\"/><path d=\"M3 12h18M7 17v2M17 17v2\"/><path d=\"M15 2.5h3l-3 3h3\"/>"}, {"t": "Ein Hup-Solo, länger als 5 Sekunden", "s": "Hup-Solo über 5 Sek.", "i": "<path d=\"M3 10h4l5-4v12l-5-4H3z\"/><path d=\"M15.5 9a4 4 0 0 1 0 6M18 6.5a8 8 0 0 1 0 11\"/>"}, {"t": "Tutanchamun auf etwas Komischem (Feuerzeug? Handtuch?)", "s": "Tut auf Kitsch", "i": "<path d=\"M6 4h12v6c0 5-2.7 8-6 8s-6-3-6-8z\"/><path d=\"M6 6L4 20h16L18 6\"/><path d=\"M11 18h2v3h-2z\"/><path d=\"M9 9.5h1.5M13.5 9.5H15\"/>"}, {"t": "Eine Katze schläft auf 3.000 Jahre altem Stein", "s": "Katze auf Uralt-Stein", "i": "<path d=\"M5 19c0-4 2-7 7-7s7 3 7 7z\"/><path d=\"M8 12.6L7 8l3 2.6M16 12.6L17 8l-3 2.6\"/><path d=\"M10 15.5h1M13 15.5h1\"/><path d=\"M18.5 3.5h2.5l-2.5 2.5h2.5\"/>"}, {"t": "Ein Verkäufer sagt „Welcome to Alaska!“", "s": "„Welcome to Alaska!“", "i": "<path d=\"M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9\"/><path d=\"M10 4.5l2 1.5 2-1.5M10 19.5l2-1.5 2 1.5\"/>"}, {"t": "Eine Göttin, halb Nilpferd, halb Krokodil", "s": "Nil­pferd-Krokodil-Göttin", "i": "<path d=\"M4 15c0-4 3-7 8-7 3 0 4 1 5 1 2 0 3 1 3 3v2c0 1.5-1 2.5-2.5 2.5H6c-1 0-2-.5-2-1.5z\"/><path d=\"M15 8V6.5M18 9V7.5\"/><path d=\"M16 11h1\"/><path d=\"M7 16.5V20M11 16.5V20\"/>"}, {"t": "Socken in Sandalen an den Pyramiden", "s": "Socken in San­dalen", "i": "<path d=\"M9 3h6v8l3.5 4c1.5 2 .5 5-2.5 5h-4.5C9 20 7 18 7 15.5L9 13z\"/><path d=\"M9 6h6\"/>"}, {"t": "Sag Hallo zur fehlenden Nase der Sphinx", "s": "Sphinx ohne Nase", "i": "<path d=\"M6 21V11c0-4 2.7-7 6-7s6 3 6 7v10\"/><path d=\"M6 11l-2 6M18 11l2 6\"/><path d=\"M9.5 11h1M13.5 11h1\"/><path d=\"M11 14.5h2\" stroke-dasharray=\"1 1.2\"/><path d=\"M10 17.5h4\"/>"}, {"t": "Ein Kamel, das klingt wie eine kaputte Trompete", "s": "Trom­peten-Kamel", "i": "<path d=\"M3 10v4M3 12h11l5-5v10l-5-5\"/><path d=\"M7 12v3h3v-3\"/><path d=\"M15.5 4l1 1.5-1 1 1 1.5\"/>"}, {"t": "Ein Handtuch-Tier auf deinem Bett", "s": "Hand­tuch-Tier", "i": "<path d=\"M3 18c3 2 15 2 18 0\"/><path d=\"M6 18c0-3 2-5 5-5h3c2 0 3-1 3-3V6c0-1.5 2-1.5 2 0\"/><path d=\"M19 6l2 1\"/>"}, {"t": "Eine Hieroglyphe, die wie ein Emoji aussieht", "s": "Emoji-Hiero­glyphe", "i": "<path d=\"M2 11c3-4 7-5 10-5s7 1 10 5c-3 3-7 4-10 4s-7-1-10-4z\"/><circle cx=\"12\" cy=\"10.5\" r=\"2.5\"/><path d=\"M9 15l-1 4M12.5 15v3c0 1.5 1.5 2 2.5 1\"/>"}, {"t": "Jemand küsst die Sphinx (auf dem Foto)", "s": "Sphinx-Kuss", "i": "<path d=\"M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z\"/>"}, {"t": "Ein Esel im Stau", "s": "Esel im Stau", "i": "<path d=\"M8 3l2 6M16 3l-2 6\"/><path d=\"M9 9c-1 2-1.5 4-1.5 6 0 3 2 5 4.5 5s4.5-2 4.5-5c0-2-.5-4-1.5-6z\"/><path d=\"M10 12.5h1M13 12.5h1\"/><path d=\"M10.5 17h3\"/>"}, {"t": "Ein Buffet-Essen, das niemand erkennt", "s": "Mystery-Buf­fet", "i": "<circle cx=\"12\" cy=\"13\" r=\"8\"/><path d=\"M10.5 11a1.6 1.6 0 1 1 2.2 1.5c-.5.2-.7.6-.7 1.1M12 16.2v.1\"/>"}, {"t": "Dein Name in Hieroglyphen", "s": "Dein Name in Hiero­glyphen", "i": "<rect x=\"7\" y=\"2.5\" width=\"10\" height=\"17\" rx=\"5\"/><path d=\"M6 21.5h12\"/><path d=\"M10 7h4M12 10.5v3M10 15.5h4\"/>"}, {"t": "Ein Heißluftballon bei Sonnenaufgang", "s": "Ballon bei Sonnen­aufgang", "i": "<path d=\"M12 3c-4 0-6.5 3-6.5 6.5S9 15 10.5 16h3c1.5-1 5-3 5-6.5S16 3 12 3z\"/><path d=\"M12 3v13\"/><path d=\"M10 18h4v3h-4z\"/>"}, {"t": "Drei Leute auf einem Motorrad", "s": "3 Leute, 1 Motor­rad", "i": "<circle cx=\"5.5\" cy=\"16.5\" r=\"3\"/><circle cx=\"18.5\" cy=\"16.5\" r=\"3\"/><path d=\"M5.5 16.5l4-6h5l4 6M9.5 10.5L8 8H6M14.5 10.5L16 7h2\"/>"}, {"t": "Sand an einer Stelle, wo nie Sand sein sollte", "s": "Sand am falschen Ort", "i": "<path d=\"M6 3h12M6 21h12M7 3c0 5 5 6 5 9s-5 4-5 9M17 3c0 5-5 6-5 9s5 4 5 9\"/><path d=\"M9.5 19h5\"/>"}, {"t": "Ein Pharao mit falschem Bart", "s": "Pharao mit Fake-Bart", "i": "<path d=\"M7 9a5 5 0 0 1 10 0v4a5 5 0 0 1-10 0z\"/><path d=\"M7 9L4 19M17 9l3 10\"/><path d=\"M11 17.5h2v4h-2z\"/>"}];
+const CARDS = [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, -1, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23], [12, 21, 19, 6, 16, 3, 18, 23, 5, 7, 15, 14, -1, 0, 17, 4, 1, 22, 10, 9, 20, 8, 13, 11, 2], [7, 9, 3, 14, 23, 16, 17, 8, 18, 22, 13, 2, -1, 19, 6, 0, 21, 11, 12, 1, 10, 5, 15, 20, 4], [11, 8, 20, 1, 21, 19, 10, 0, 22, 13, 9, 7, -1, 23, 3, 5, 4, 6, 2, 16, 17, 12, 14, 18, 15], [23, 13, 6, 17, 0, 18, 12, 16, 3, 20, 22, 8, -1, 1, 4, 15, 19, 10, 7, 21, 2, 11, 9, 5, 14], [14, 22, 5, 15, 10, 20, 0, 4, 21, 2, 1, 3, -1, 18, 9, 23, 12, 13, 8, 11, 6, 16, 7, 17, 19], [13, 23, 18, 8, 12, 17, 16, 3, 19, 15, 11, 21, -1, 6, 20, 2, 7, 14, 1, 0, 9, 4, 5, 10, 22], [15, 20, 10, 4, 1, 22, 9, 13, 2, 3, 0, 19, -1, 5, 18, 12, 23, 17, 8, 14, 16, 6, 11, 21, 7], [5, 3, 7, 23, 11, 6, 4, 15, 1, 10, 18, 12, -1, 20, 19, 21, 0, 9, 13, 22, 8, 14, 17, 2, 16], [17, 2, 1, 22, 8, 14, 13, 12, 20, 18, 3, 16, -1, 15, 23, 7, 6, 19, 4, 10, 0, 21, 5, 9, 11]];
+
+(function () {
+  const $ = (s) => document.querySelector(s);
+  const KEY = 'aegypten-bingo-mobil-v2';
+  // Link codes: one per family link, e.g. …#kamel opens card 1
+  const CODES = ['kamel', 'sphinx', 'pyramide', 'nil', 'lotus', 'falke', 'oase', 'papyrus', 'skarabaeus', 'ankh'];
+  const FREE_TEXT = 'Du bist in Ägypten! Jetzt Wasser trinken.';
+  const DROP = '<path d="M12 3c3 4.5 6 7.5 6 11a6 6 0 0 1-12 0c0-3.5 3-6.5 6-11z"/>';
+  const PYRAMID = '<path d="M2 20h20L12 4z"/><path d="M12 4l3 16"/><circle cx="19.5" cy="5" r="2"/>';
+  const CROWN = '<path d="M3 18h18M4 18L3 8l5 4 4-7 4 7 5-4-1 10"/><circle cx="12" cy="13.5" r="1.2"/>';
+  const HEART = '<path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/>';
+  const STAMP = '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="24" cy="24" r="20" stroke-width="3" stroke-dasharray="4 2.4"/><circle cx="24" cy="24" r="15.5" stroke-width="1.5"/><path d="M15.5 24.5l6 6 11.5-13" stroke-width="4.5"/></svg>';
+  const TICK = '<svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>';
+
+  const LINES = [];
+  for (let r = 0; r < 5; r++) LINES.push([0, 1, 2, 3, 4].map((c) => r * 5 + c));
+  for (let c = 0; c < 5; c++) LINES.push([0, 1, 2, 3, 4].map((r) => r * 5 + c));
+  LINES.push([0, 6, 12, 18, 24], [4, 8, 12, 16, 20]);
+
+  function icon(inner, cls) {
+    return '<svg class="' + (cls || 'ico') + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + inner + '</svg>';
+  }
+
+  let state = { card: null, names: '', marks: [] };
+  let marks = new Set();
+  let lastId = null;
+  let lastFocus = null;
+  let linkCard = null;
+  let pickedCard = null;
+
+  function validCard(n) { n = parseInt(n, 10); return n >= 1 && n <= CARDS.length ? n : null; }
+  function sanitize(s) {
+    const out = { card: null, names: '', marks: [] };
+    if (!s || typeof s !== 'object') return out;
+    out.card = validCard(s.card);
+    if (typeof s.names === 'string') out.names = s.names.trim().slice(0, 40);
+    if (Array.isArray(s.marks)) out.marks = [...new Set(s.marks.filter((m) => Number.isInteger(m) && m >= 0 && m < ITEMS.length))];
+    return out;
+  }
+  const isSetUp = () => !!(state.card && state.names);
+  function load() {
+    try { const raw = localStorage.getItem(KEY); return raw ? JSON.parse(raw) : null; } catch (e) { return null; }
+  }
+  function save() {
+    state.marks = [...marks];
+    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+  }
+  function cardFromLink() {
+    const h = (location.hash || '').replace(/^#/, '').toLowerCase();
+    if (!h) return null;
+    const i = CODES.indexOf(h);
+    if (i >= 0 && i < CARDS.length) return i + 1;
+    const m = /^karte(\d{1,2})$/.exec(h);
+    return m ? validCard(m[1]) : null;
+  }
+
+  /* ---------- Welcome ---------- */
+  function showWelcome() {
+    $('#game').hidden = true;
+    $('#reset-area').hidden = true;
+    $('#welcome').hidden = false;
+    linkCard = cardFromLink();
+    pickedCard = null;
+    $('#reserved').hidden = !linkCard;
+    $('#reserved-n').textContent = 'KARTE ' + (linkCard || '');
+    $('#pick-wrap').hidden = !!linkCard;
+    $('#err').hidden = true;
+    $('#names-in').value = state.names || '';
+    const chips = $('#chips');
+    chips.textContent = '';
+    if (!linkCard) {
+      for (let n = 1; n <= CARDS.length; n++) {
+        const c = document.createElement('button');
+        c.type = 'button';
+        c.className = 'chip';
+        c.textContent = String(n);
+        c.dataset.n = String(n);
+        c.setAttribute('aria-pressed', 'false');
+        c.setAttribute('aria-label', 'Karte ' + n);
+        chips.appendChild(c);
+      }
+    }
+  }
+  $('#chips').addEventListener('click', (e) => {
+    const c = e.target.closest('.chip');
+    if (!c) return;
+    pickedCard = +c.dataset.n;
+    $('#chips').querySelectorAll('.chip').forEach((x) => x.setAttribute('aria-pressed', x === c ? 'true' : 'false'));
+    $('#err').hidden = true;
+  });
+  $('#setup').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const names = $('#names-in').value.trim().slice(0, 40);
+    const card = linkCard || pickedCard;
+    const err = $('#err');
+    if (!names) { err.textContent = 'Bitte tragt eure Namen ein.'; err.hidden = false; $('#names-in').focus(); return; }
+    if (!card) { err.textContent = 'Bitte wählt eure Kartennummer.'; err.hidden = false; return; }
+    state = { card: card, names: names, marks: [] };
+    marks = new Set();
+    lastId = null;
+    save();
+    showGame(true);
+    try { window.scrollTo({ top: 0, behavior: 'smooth' }); } catch (e2) { window.scrollTo(0, 0); }
+    confetti(70);
+  });
+
+  /* ---------- Game ---------- */
+  const board = $('#board');
+  const layout = () => CARDS[state.card - 1];
+  const isOn = (pos) => { const id = layout()[pos]; return id === -1 || marks.has(id); };
+  const doneLines = () => LINES.map((l, i) => (l.every(isOn) ? i : -1)).filter((i) => i >= 0);
+
+  function showGame(fresh) {
+    $('#welcome').hidden = true;
+    $('#game').hidden = false;
+    $('#reset-area').hidden = false;
+    $('#names-text').textContent = state.names;
+    const tag = $('#cardtag');
+    tag.textContent = 'KARTE ' + state.card;
+    tag.classList.remove('fresh');
+    if (fresh) { void tag.offsetWidth; tag.classList.add('fresh'); }
+    renderBoard();
+    if (fresh) {
+      setNote('EURE KARTE', 'Hallo ' + state.names + '! Karte ' + state.card + ' gehört ab jetzt euch. Tippt ein Feld an, sobald ihr es entdeckt.', HEART);
+    } else if (marks.size) {
+      setNote('WEITER GEHT\'S', 'Schön, dass ihr wieder da seid! ' + marks.size + ' von 24 habt ihr schon.', PYRAMID);
+    } else {
+      setNote("LOS GEHT'S", 'Tippt ein Feld an, sobald ihr es entdeckt. Fünf in einer Reihe = BINGO!', PYRAMID);
+    }
+  }
+
+  function renderBoard() {
+    board.textContent = '';
+    layout().forEach((id, pos) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'cell' + (pos % 2 ? ' alt' : '');
+      b.dataset.pos = String(pos);
+      if (id === -1) {
+        b.classList.add('free');
+        b.innerHTML = icon(DROP) + '<span class="big">FREI</span><span class="lbl">Wasser trinken!</span>';
+        b.setAttribute('aria-label', 'Freies Feld: ' + FREE_TEXT);
+      } else {
+        const it = ITEMS[id];
+        b.innerHTML = icon(it.i);
+        const lbl = document.createElement('span');
+        lbl.className = 'lbl';
+        lbl.textContent = it.s;
+        b.appendChild(lbl);
+        const st = document.createElement('span');
+        st.className = 'stamp';
+        st.innerHTML = STAMP;
+        b.appendChild(st);
+        b.setAttribute('aria-label', it.t);
+      }
+      board.appendChild(b);
+    });
+    renderList();
+    refresh([]);
+  }
+
+  function renderList() {
+    const ul = $('#list');
+    ul.textContent = '';
+    layout().forEach((id) => {
+      if (id === -1) return;
+      const it = ITEMS[id];
+      const li = document.createElement('li');
+      li.dataset.id = String(id);
+      li.innerHTML = icon(it.i);
+      const sp = document.createElement('span');
+      sp.textContent = it.t;
+      li.appendChild(sp);
+      li.insertAdjacentHTML('beforeend', TICK);
+      ul.appendChild(li);
+    });
+  }
+
+  function refresh(newLines) {
+    const lines = doneLines();
+    const win = new Set();
+    lines.forEach((i) => LINES[i].forEach((p) => win.add(p)));
+    const pop = new Set();
+    newLines.forEach((i) => LINES[i].forEach((p) => pop.add(p)));
+    board.querySelectorAll('.cell').forEach((b) => {
+      const pos = +b.dataset.pos;
+      const id = layout()[pos];
+      if (id !== -1) {
+        const on = marks.has(id);
+        b.classList.toggle('on', on);
+        b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      }
+      b.classList.toggle('win', win.has(pos));
+      b.classList.remove('pop');
+      if (pop.has(pos)) { void b.offsetWidth; b.classList.add('pop'); }
+    });
+    document.querySelectorAll('#list li').forEach((li) => li.classList.toggle('done', marks.has(+li.dataset.id)));
+    $('#count').textContent = String(marks.size);
+    const pill = $('#pill');
+    pill.hidden = lines.length === 0;
+    pill.textContent = lines.length + '× BINGO';
+  }
+
+  function setNote(kicker, text, iconInner, btnLabel) {
+    $('#note-k').textContent = kicker;
+    $('#note-t').textContent = text;
+    $('#note-ico').innerHTML = icon(iconInner, 'x');
+    const btn = $('#note-btn');
+    btn.hidden = !btnLabel;
+    if (btnLabel) btn.textContent = btnLabel;
+  }
+
+  function toggle(id) {
+    const before = new Set(doneLines());
+    const wasFull = marks.size === ITEMS.length;
+    if (marks.has(id)) marks.delete(id); else marks.add(id);
+    const on = marks.has(id);
+    lastId = id;
+    save();
+    const after = doneLines();
+    const fresh = on ? after.filter((i) => !before.has(i)) : [];
+    refresh(fresh);
+    const it = ITEMS[id];
+    if (on) setNote('GEFUNDEN!', it.t, it.i, 'Doch nicht');
+    else setNote('KREUZ ENTFERNT', it.t, it.i, 'Wieder ankreuzen');
+    if (on && !wasFull && marks.size === ITEMS.length) celebrate('full', after.length);
+    else if (fresh.length) celebrate('bingo', after.length);
+  }
+
+  function celebrate(kind, total) {
+    const hi = state.names ? 'Glückwunsch, ' + state.names + '! ' : '';
+    if (kind === 'full') {
+      $('#cel-h').textContent = 'PHARAO!';
+      $('#cel-p').textContent = hi + 'Volle Karte! Heute Abend seid ihr Pharaonen. Handtuch-Kronen sind Pflicht.';
+      $('#cel-ico').innerHTML = CROWN;
+      $('#cel-btn').textContent = 'Krone aufsetzen';
+    } else {
+      $('#cel-h').textContent = 'BINGO!';
+      $('#cel-p').textContent = hi + (total <= 1
+        ? 'Fünf in einer Reihe! Ab zum Nachtisch-Buffet, ihr seid heute als Erste dran.'
+        : 'Schon ' + total + ' Reihen! Das Nachtisch-Buffet hat langsam Angst vor euch.');
+      $('#cel-ico').innerHTML = PYRAMID;
+      $('#cel-btn').textContent = 'Weiter suchen';
+    }
+    lastFocus = document.activeElement;
+    $('#cel').hidden = false;
+    $('#cel-btn').focus();
+    try { if (navigator.vibrate) navigator.vibrate([60, 40, 140]); } catch (e) {}
+    confetti(150);
+  }
+  function closeCel() {
+    $('#cel').hidden = true;
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  function confetti(count) {
+    try { if (matchMedia('(prefers-reduced-motion: reduce)').matches) return; } catch (e) {}
+    const cv = $('#confetti');
+    const ctx = cv.getContext('2d');
+    if (!ctx) return;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const W = window.innerWidth, H = window.innerHeight;
+    cv.hidden = false;
+    cv.width = W * dpr; cv.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const cs = getComputedStyle(document.documentElement);
+    const cols = ['--gold', '--coral', '--teal', '--ink'].map((v) => cs.getPropertyValue(v).trim() || '#E8A81F');
+    const P = [];
+    for (let i = 0; i < count; i++) {
+      P.push({
+        x: W / 2 + (Math.random() - 0.5) * W * 0.4, y: H * 0.42,
+        vx: (Math.random() - 0.5) * 13, vy: -Math.random() * 14 - 4,
+        r: Math.random() * 6.28, vr: (Math.random() - 0.5) * 0.3,
+        s: 7 + Math.random() * 7, c: cols[i % cols.length], tri: Math.random() < 0.5,
+      });
+    }
+    const DUR = 3200, t0 = performance.now();
+    function frame(now) {
+      const el = now - t0;
+      ctx.clearRect(0, 0, W, H);
+      ctx.globalAlpha = Math.max(0, 1 - Math.max(0, el - 2000) / (DUR - 2000));
+      P.forEach((p) => {
+        p.vy += 0.33; p.vx *= 0.99; p.x += p.vx; p.y += p.vy; p.r += p.vr;
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.r);
+        ctx.fillStyle = p.c;
+        if (p.tri) {
+          ctx.beginPath();
+          ctx.moveTo(0, -p.s * 0.6); ctx.lineTo(p.s * 0.6, p.s * 0.5); ctx.lineTo(-p.s * 0.6, p.s * 0.5);
+          ctx.closePath(); ctx.fill();
+        } else {
+          ctx.fillRect(-p.s / 2, -p.s / 4, p.s, p.s / 2);
+        }
+        ctx.restore();
+      });
+      if (el < DUR) requestAnimationFrame(frame);
+      else { ctx.clearRect(0, 0, W, H); cv.hidden = true; }
+    }
+    requestAnimationFrame(frame);
+  }
+
+  board.addEventListener('click', (e) => {
+    const b = e.target.closest('.cell');
+    if (!b) return;
+    const id = layout()[+b.dataset.pos];
+    if (id === -1) { setNote('FREIES FELD', FREE_TEXT, DROP); return; }
+    toggle(id);
+  });
+  $('#note-btn').addEventListener('click', () => { if (lastId !== null) toggle(lastId); });
+  $('#cel-btn').addEventListener('click', closeCel);
+  $('#cel').addEventListener('click', (e) => { if (e.target === e.currentTarget) closeCel(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !$('#cel').hidden) closeCel(); });
+
+  /* Edit names */
+  $('#edit-names').addEventListener('click', () => {
+    $('#namerow').hidden = true;
+    $('#nameedit').hidden = false;
+    const inp = $('#names-edit');
+    inp.value = state.names;
+    inp.focus();
+  });
+  $('#nameedit').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const v = $('#names-edit').value.trim().slice(0, 40);
+    if (v) { state.names = v; save(); $('#names-text').textContent = v; }
+    $('#nameedit').hidden = true;
+    $('#namerow').hidden = false;
+    $('#edit-names').focus();
+  });
+
+  /* Reset */
+  const DEFAULT_RESET_MSG = 'Euer Spielstand bleibt auf diesem Handy gespeichert.';
+  $('#reset').addEventListener('click', () => {
+    $('#reset-row').hidden = true;
+    $('#confirm-row').hidden = false;
+    $('#reset-msg').textContent = 'Was soll gelöscht werden?';
+    $('#reset-no').focus();
+  });
+  function closeConfirm(msg) {
+    $('#confirm-row').hidden = true;
+    $('#reset-row').hidden = false;
+    $('#reset-msg').textContent = msg || DEFAULT_RESET_MSG;
+  }
+  $('#reset-no').addEventListener('click', () => { closeConfirm(); $('#reset').focus(); });
+  $('#reset-marks').addEventListener('click', () => {
+    marks = new Set();
+    lastId = null;
+    save();
+    refresh([]);
+    setNote("LOS GEHT'S", 'Alle Kreuze gelöscht. Viel Glück bei der neuen Runde!', PYRAMID);
+    closeConfirm();
+    $('#reset').focus();
+  });
+  $('#reset-all').addEventListener('click', () => {
+    marks = new Set();
+    lastId = null;
+    state = { card: null, names: '', marks: [] };
+    try { localStorage.removeItem(KEY); } catch (e) {}
+    closeConfirm();
+    showWelcome();
+    try { window.scrollTo(0, 0); } catch (e) {}
+    $('#names-in').focus();
+  });
+
+  function start(data) {
+    state = sanitize((data && data.state) || load());
+    marks = new Set(state.marks);
+    if (isSetUp()) showGame(false);
+    else showWelcome();
+  }
+
+  try { window.claude?.hot?.snapshot?.(() => ({ state: { card: state.card, names: state.names, marks: [...marks] } })); } catch (e) {}
+  if (window.claude?.hot?.ready) window.claude.hot.ready(start);
+  else start(window.claude?.hot?.data ?? {});
+})();
+</script>
+
+</body>
+</html>
